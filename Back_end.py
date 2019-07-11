@@ -5,8 +5,6 @@ import os
 import cv2
 import numpy as np
 import math as math
-# from ImageWriter import  *
-# import read_frames_fast as fs
 from imutils.video import FileVideoStream
 from imutils.video import FPS
 import imutils
@@ -115,15 +113,15 @@ def detect_color(pathin):
         r=  detect_red(frame)
         g = detect_green(frame)
         t = count/frames_rate
-        if r >= 15 and g >= 15:
+        if r >= 30 and g >= 30:
 
             when.append("-")
 
-        elif g >= 15:
+        elif g >= 30:
 
             when.append(["g",t])
 
-        elif r >= 15:
+        elif r >= 30:
 
             when.append(["r",t]) 
 
@@ -215,8 +213,6 @@ def update_list(thelist, ta, tb):
     for i in range(len(thelist)):
         if thelist[i][1] < ta:
             thelist[i][1] = thelist[i][1]
-        # elif thelist[i][1] >= ta and thelist[i][1] < tb:
-        #     del thelist[i]
         elif thelist[i][1] >= tb:
             thelist[i][1] = thelist[i][1] - (tb - ta)            
         else:
@@ -271,215 +267,3 @@ def final_cut(pathin,pathout):
     cap.write_videofile(pathout)
     return cap
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# thelist = ["-","-","-","-","-","-","-","-","-",["r",10],["r",11],["r",12],["r",13]
-# ,"-","-","-","-","-","-","-","-","-",["g",23],["g",24],["g",25],["g",26],"-","-",
-# "-","-","-","-","-","-","-",["r",35],["r",36],["r",37],["r",38],"-","-","-","-",
-# "-","-","-","-","-",["g",47],["g",48],["g",49],["g",50],"-","-"]
-
-
-# h, hh = final_cut("wow.mp4",thelist )
-
-# print(h)
-# print("\n")
-# print(hh)
-# print(edit_time(h,2,5))
-
-
-
-# print(detect("wow.mp4"))
-# print("\n")
-# print(detect("wow.mp4", "red"))
-# cap = cv2.VideoCapture("wow.mp4")
-# length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-# print(length)
-
-
-
-
-
-
-
-
-
-
-
-# def record():
-#     cap = cv2.VideoCapture(0)
-#     fourcc = cv2.VideoWriter_fourcc(*"XVID")
-#     out = cv2.VideoWriter("output.avi", fourcc, 20.0, (640,480))
-#     while(True):
-#         ret, frame = cap.read()
-#         out.write(frame)
-#         cv2.imshow('frame', frame)
-#         if cv2.waitKey(1) & 0xFF == ord('q'):
-#             break
-#     out.release()
-#     cv2.destroyAllWindows()
-        
-
-# def upload_video():
-#     cap = cv2.VideoCapture('rihno.mp4')
-
-#     while(cap.isOpened()):
-#         ret, frame = cap.read()
-#         cv2.imshow('frame',frame)
-
-#         if cv2.waitKey(1) & 0xFF == ord('q'):
-#             break
-
-#     cap.release()
-#     cv2.destroyAllWindows()
-    
-# #######################################
-# upload_video()
-# messing around
-
-
-# cap = cv2.VideoCapture(0)
-# fourcc = cv2.VideoWriter_fourcc(*"XVID")
-# out = cv2.VideoWriter("output.avi", fourcc, 20.0, (640,480))
-
-# while(True):
-#     # Capture frame-by-frame
-#     ret, frame = cap.read()
-#     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-#     out.write(frame)
-#     # Our operations on the frame come here
-#     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-#     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
-#     # Display the resulting frame
-#     cv2.imshow('frame', frame)
-#     cv2.imshow('gray', gray)
-#     cv2.imshow('hsv', hsv)
-
-
-
-#     if cv2.waitKey(1) & 0xFF == ord('q'):
-#         break
-
-# # When everything done, release the capture
-# cap.release()
-# out.release()
-# cv2.destroyAllWindows()
-
-
-
-# #convert the video to phrames 1 fps
-# def detect(file_name,color):#, pathOut):
-#     cap = cv2.VideoCapture(file_name)
-#     frameRate = cap.get(5) #frame rate
-#     success,image = cap.read()
-#     count = 0
-#     success = True
-#     when = []
-#     while success:
-#         frameId = cap.get(1)   #current frame number
-#         if (frameId % math.floor(frameRate) == 0):
-#             if color == "red":
-#                 when.append(detect_red(image))
-#             if color =="green":
-#                 when.append(detect_green(image))
-#         print(when)
-#         success,image = cap.read()
-#     cap.release()
-#     cv2.destroyAllWindows()
-#     return when
-
-
-# def detect_red(pathin):
-   
-#     # img = cv2.imread(pathin)
-#     img = pathin
-#     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-#     dimensions = img.shape 
-     
-#     #Red color rangle  169, 100, 100 , 189, 255, 255
-     
-#     mask1 = cv2.inRange(hsv, np.array([0,70,50]), np.array([10,255,255]))
-#     mask2 = cv2.inRange(hsv, np.array([170,70,50]), np.array([180,255,255]))
-#     BW = mask1 | mask2
-#     BW = cv2.cvtColor(BW, cv2.COLOR_BGR2RGB)
-#     red=0
-#     All=0
-#     for x in range (BW.shape[1]):
-#         for y in range (BW.shape[0]):
-
-#             color = BW[y,x]
-#             if np.array_equal(color ,np.array([255, 255, 255])):
-
-#                 red += 1
-#             All += 1 
-
-#     return int((red / All)*100)
-
-
-
-#cut the video
-# def cut(video_name,vid1,vid2,output,t1,t2):
-
-
-
-#     # from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
-#     # ffmpeg_extract_subclip(video_name, 0, t1, targetname="clip1.mp4")
-#     # ffmpeg_extract_subclip(video_name, t2 + 1 ,VideoFileClip(video_name).duration , targetname="clip2.mp4")
-
-    
-#     clip1 = VideoFileClip(video_name).subclip(0,t1)
-#     clip1.write_videofile(vid1)
-#     clip2 =VideoFileClip(video_name).subclip(t2 + 1,VideoFileClip(video_name).duration)
-#     clip2.write_videofile(vid2)
-#     result = concatenate_videoclips([VideoFileClip(vid1), VideoFileClip(vid2)])
-#     result.write_videofile(output)
-#     os.remove(vid1)
-#     os.remove(vid2)
-#     return result
-
-# clip1 = VideoFileClip("wow.mp4").cutout(2,4)
-# clip1.write_videofile("wow2.mp4")
-# cut("wow.mp4", "clip1.mp4","clip2.mp4", 2,5)
-# result = concatenate_videoclips([VideoFileClip("clip1.mp4"), VideoFileClip("clip2.mp4")])
-# result.write_videofile("final.mp4")
-
-# def concatenate(clip1,clip2,output):
-#     result = concatenate_videoclips([VideoFileClip(clip1), VideoFileClip(clip2)])
-#     result.write_videofile(output)
-#     os.remove(clip1)
-#     os.remove(clip2)
-#     return result
-# 
-
-# concatenate("clip1.mp4","clip2.mp4","wow2.mp4")
-# 
